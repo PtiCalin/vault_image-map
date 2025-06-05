@@ -1,6 +1,6 @@
 # .github/workflows/main.yml
 
-name: 🔄 CI – Vault Template Build Check
+name: 🔄 CI – Image Map Plugin Build Check
 
 on:
   push:
