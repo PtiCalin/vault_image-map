@@ -1,0 +1,10 @@
+{
+  "id": "image-map",
+  "name": "Image Map",
+  "version": "0.1.0",
+  "minAppVersion": "0.15.0",
+  "description": "Overlay images with interactive SVG vectors.",
+  "author": "PtiCalin",
+  "authorUrl": "https://github.com/your-username",
+  "isDesktopOnly": false
+}

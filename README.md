@@ -43,6 +43,17 @@ npm run build
 
 After building, copy the contents of `/dist` into your Obsidian vault’s `.obsidian/plugins/` folder.
 
+### ✨ Usage
+
+Add an HTML image tag with a `data-overlay` attribute pointing to an SVG file. The plugin wraps the image in a container and overlays the SVG so you can animate or style it via CSS.
+
+```markdown
+<!-- example -->
+<img src="my-diagram.png" data-overlay="my-overlay.svg" />
+```
+
+Any vectors in `my-overlay.svg` are positioned on top of the image. You can add animations or interactions using regular CSS selectors targeting `.image-map-overlay`.
+
 ---
 
 ## 🧱 Folder Structure
