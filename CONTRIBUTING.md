@@ -14,7 +14,7 @@ This repo is built on curiosity, creativity, and care — and *you* are part of 
 - 🌟 Suggest new features or enhancements  
 - 🧪 Write or improve tests  
 - 🔧 Refactor or optimize code  
-- 🗣️ Start a conversation in [GitHub Discussions](https://github.com/PtiCalin/general-template-repo/discussions)
+- 🗣️ Start a conversation in [GitHub Discussions](https://github.com/PtiCalin/image-map-plugin/discussions)
 
 ---
 
@@ -23,8 +23,8 @@ This repo is built on curiosity, creativity, and care — and *you* are part of 
 ### 1. Fork + Clone
 
 ```bash
-git clone https://github.com/PtiCalin/general-template-repo.git
-cd general-template-repo
+git clone https://github.com/PtiCalin/image-map-plugin.git
+cd image-map-plugin
 ```
 
 ### 2. Create a Branch
@@ -77,7 +77,7 @@ We especially appreciate:
 
 ## 🌿 Final Notes
 
-Not sure where to start? Open a [Discussion](https://github.com/PtiCalin/general-template-repo/discussions) or draft a PR early to get feedback.
+Not sure where to start? Open a [Discussion](https://github.com/PtiCalin/image-map-plugin/discussions) or draft a PR early to get feedback.
 
 You're not just contributing to code — you're growing a thoughtful and joyful digital garden 🌼
 
