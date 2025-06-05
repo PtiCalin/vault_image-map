@@ -79,7 +79,7 @@ Use freely, fork creatively — just spread the love.
 ## 💌 Sponsor
 
 If this template helped you get started faster or better, consider sponsoring here:  
-[**github.com/sponsors/your-username**](https://github.com/sponsors/your-username)
+[**github.com/sponsors/your-username**](https://github.com/sponsors/PtiCalin)
 
 ---
 
