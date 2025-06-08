@@ -2,7 +2,6 @@
 node_modules/
 .env
 *.log
-dist/
 __pycache__/
 .vscode/
 .DS_Store

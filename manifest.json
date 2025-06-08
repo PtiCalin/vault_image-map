@@ -6,5 +6,7 @@
   "description": "Overlay images with interactive SVG vectors.",
   "author": "PtiCalin",
   "authorUrl": "https://github.com/your-username",
-  "isDesktopOnly": false
+  "isDesktopOnly": false,
+  "main": "dist/main.js",
+  "css": "styles.css"
 }
