@@ -41,6 +41,22 @@ npm install
 npm run build
 ```
 
+### ⚙️ Automated Setup (Codex)
+
+If you're running this repository in a Codex environment, place the commands
+above in a `setup.sh` script at the project root:
+
+```bash
+#!/usr/bin/env bash
+npm install
+npm run build
+```
+
+Make the script executable with `chmod +x setup.sh`. Codex will run it
+automatically when the workspace starts. If network access is restricted,
+set `CODEX_ENABLE_NETWORK=1` or request outbound access so `npm install` can
+download packages.
+
 After building, copy the contents of `/dist` into your Obsidian vault’s `.obsidian/plugins/` folder.
 
 ### ✨ Usage
