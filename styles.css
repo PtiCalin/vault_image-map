@@ -1,3 +1,5 @@
+/* Styles for the image-map wrapper and overlay elements.
+ * Obsidian uses these rules to position interactive vectors over images. */
 .image-map-container {
   position: relative;
   display: inline-block;
