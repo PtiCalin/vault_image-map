@@ -69,8 +69,12 @@ Add an HTML image tag with a `data-overlay` attribute pointing to an SVG file. T
 ```
 
 Any vectors in `my-overlay.svg` are positioned on top of the image. You can add animations or interactions using regular CSS selectors targeting `.image-map-overlay`.
+**Editing an Image Map**
 
-To create or modify image map coordinates directly inside Obsidian, simply **right-click any image** and choose **"Edit Image Map"** from the menu. The plugin registers this context menu item automatically. Selecting it opens an editing panel where you can draw rectangles, polygons, or ellipses on top of the image. Once you're done, hit *Save* and the coordinates will be written to a companion JSON file in your vault.
+1. Right-click an image in preview mode and choose **"Edit Image Map"**.
+2. Use the toolbar to draw polygons, rectangles or ellipses over the preview.
+3. Click **Save** to store the coordinates to `<image>.map.json` next to the source image.
+4. Reload the note to see the overlay applied.
 
 The plugin can also render these shapes automatically from stored coordinates. Either supply a `data-coordinates` attribute containing JSON, or define a matching entry under `imageMaps` in your note's front-matter. On render, the coordinates are converted into `<polygon>`, `<rect>`, or `<ellipse>` elements that layer on top of the image, alongside any external SVG.
 
@@ -83,6 +87,26 @@ src/           → TypeScript plugin source
 dist/          → Compiled output used by Obsidian
 .github/       → GitHub Actions, PR/issue templates
 ```
+## 🧩 Modules
+
+The plugin is split into several TypeScript modules:
+- `main.ts` – entry point that registers the post processor and context menu.
+- `contextMenu.ts` – adds the **Edit Image Map** action when right-clicking an image.
+- `panel.ts` – modal editor used to draw shapes and save them to a `.map.json` file.
+- `imageMap.ts` – parsing and SVG helper utilities used by both the editor and runtime.
+
+`main.ts` wires these pieces together so images display overlays and can be edited in place.
+
+## 🛠 Commands & Configuration
+
+The plugin currently has no command palette actions or settings.
+Use the following HTML attributes to configure each image:
+
+- `data-overlay` – path to an external SVG file to overlay.
+- `data-coordinates` – JSON string of shape coordinates.
+- `data-map` – key referencing `imageMaps` data in the note front matter.
+
+
 
 ---
 
