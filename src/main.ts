@@ -5,6 +5,7 @@
  * Friendly vibes, PtiCalin style.
  */
 import { Plugin } from 'obsidian';
+import ImageContextMenu from './contextMenu';
 
 export default class ImageMapPlugin extends Plugin {
   /**
@@ -15,8 +16,8 @@ export default class ImageMapPlugin extends Plugin {
    * @returns {Promise<void>} Resolves when the post processor is registered and styles are injected.
    */
   async onload() {
-    this.registerMarkdownPostProcessor(async (el, ctx) => {
-      const images = el.querySelectorAll<HTMLImageElement>('img[data-overlay]');
+    this.registerMarkdownPostProcessor(async (el: HTMLElement, ctx: any) => {
+      const images = el.querySelectorAll('img[data-overlay]') as NodeListOf<HTMLImageElement>;
       for (const img of Array.from(images)) {
         const overlay = img.getAttribute('data-overlay');
         if (!overlay) continue;
@@ -43,6 +44,9 @@ export default class ImageMapPlugin extends Plugin {
     });
 
     this.injectStyles();
+
+    // Initialize the image context menu
+    new ImageContextMenu(this).init();
   }
 
   /**
