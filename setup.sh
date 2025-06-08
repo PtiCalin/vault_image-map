@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
-# ---------------------------------------------------------
-#  File: setup.sh
-#  Purpose: install dependencies and build the Image Map plugin.
-#  Dependencies: bash, npm, and optional Codex for network setup.
-#  Output: populated dist/ directory with compiled assets.
-# ---------------------------------------------------------
+# =========================================================
+# File: setup.sh
+# Purpose: Set up the project by installing dependencies and
+#          building the Image Map plugin.
+# Dependencies: bash, npm, and optional Codex for network setup.
+# Output: dist/ directory populated with compiled assets.
+# =========================================================
 
 
 set -euo pipefail
