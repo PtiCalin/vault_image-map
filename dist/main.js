@@ -6,6 +6,7 @@
  */
 import { Plugin } from 'obsidian';
 import ImageContextMenu from './contextMenu';
+import { parseCoordinates, shapesToSVG, } from './imageMap';
 export default class ImageMapPlugin extends Plugin {
     /**
      * Called when the plugin is loaded.
@@ -16,28 +17,35 @@ export default class ImageMapPlugin extends Plugin {
      */
     async onload() {
         this.registerMarkdownPostProcessor(async (el, ctx) => {
-            const images = el.querySelectorAll('img[data-overlay]');
+            const images = el.querySelectorAll('img');
             for (const img of Array.from(images)) {
                 const overlay = img.getAttribute('data-overlay');
-                if (!overlay)
-                    continue;
-                const file = this.app.metadataCache.getFirstLinkpathDest(overlay, ctx.sourcePath);
-                if (!file)
-                    continue;
-                try {
-                    const svg = await this.app.vault.read(file);
-                    const wrapper = createDiv({ cls: 'image-map-container' });
-                    img.parentElement?.insertBefore(wrapper, img);
-                    wrapper.appendChild(img);
-                    const overlayEl = createDiv({ cls: 'image-map-overlay' });
-                    overlayEl.innerHTML = svg;
-                    wrapper.appendChild(overlayEl);
+                let externalSvg = '';
+                if (overlay) {
+                    const file = this.app.metadataCache.getFirstLinkpathDest(overlay, ctx.sourcePath);
+                    if (file) {
+                        try {
+                            externalSvg = await this.app.vault.read(file);
+                        }
+                        catch (err) {
+                            console.error(`❌ Unable to load overlay "${overlay}". ` +
+                                'Please verify the path and ensure the SVG exists. ' +
+                                'Reload Obsidian if the issue persists.', err);
+                        }
+                    }
                 }
-                catch (err) {
-                    console.error(`❌ Unable to load overlay "${overlay}". ` +
-                        'Please verify the path and ensure the SVG exists. ' +
-                        'Reload Obsidian if the issue persists.', err);
-                }
+                const coords = parseCoordinates(img, ctx.frontmatter);
+                if (!externalSvg && !coords)
+                    continue;
+                const wrapper = createDiv({ cls: 'image-map-container' });
+                img.parentElement?.insertBefore(wrapper, img);
+                wrapper.appendChild(img);
+                const overlayEl = createDiv({ cls: 'image-map-overlay' });
+                if (externalSvg)
+                    overlayEl.innerHTML = externalSvg;
+                if (coords)
+                    overlayEl.appendChild(shapesToSVG(coords));
+                wrapper.appendChild(overlayEl);
             }
         });
         this.injectStyles();
