@@ -22,6 +22,10 @@ declare module 'obsidian' {
     showAtMouseEvent(evt: MouseEvent): void;
   }
 
+  export class Notice {
+    constructor(message: string, timeout?: number);
+  }
+
   export type App = any;
 }
 
