@@ -18,7 +18,7 @@ export default class ImageMapPlugin extends Plugin {
    * Registers a post processor that overlays SVGs on images with the
    * `data-overlay` attribute.
    *
-   * @returns {Promise<void>} Resolves when the post processor is registered and styles are injected.
+   * @returns {Promise<void>} Resolves when the post processor is registered.
    */
   async onload() {
     this.registerMarkdownPostProcessor(async (el: HTMLElement, ctx: any) => {
