@@ -48,32 +48,7 @@ export default class ImageMapPlugin extends Plugin {
                 wrapper.appendChild(overlayEl);
             }
         });
-        this.injectStyles();
         // Initialize the image context menu
         new ImageContextMenu(this).init();
-    }
-    /**
-     * Injects the CSS styles needed for the overlay container and SVG layer.
-     *
-     * @returns {void}
-     */
-    injectStyles() {
-        const style = document.createElement('style');
-        style.id = 'image-map-style';
-        style.textContent = `
-.image-map-container { position: relative; display: inline-block; }
-.image-map-container img { display: block; }
-.image-map-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-`;
-        document.head.appendChild(style);
-    }
-    /**
-     * Called when the plugin is unloaded.
-     * Removes the styles injected by {@link injectStyles}.
-     *
-     * @returns {void}
-     */
-    onunload() {
-        document.getElementById('image-map-style')?.remove();
     }
 }
