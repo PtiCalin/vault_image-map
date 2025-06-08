@@ -49,8 +49,20 @@ export function shapesToSVG(def) {
     const svg = document.createElementNS(NS, 'svg');
     svg.setAttribute('viewBox', '0 0 100 100');
     svg.setAttribute('preserveAspectRatio', 'none');
-    def.polygons?.forEach((pts) => svg.appendChild(createPolygon(pts)));
-    def.rects?.forEach(([x, y, w, h]) => svg.appendChild(createRect(x, y, w, h)));
-    def.ellipses?.forEach(([cx, cy, rx, ry]) => svg.appendChild(createEllipse(cx, cy, rx, ry)));
+    def.polygons?.forEach((pts) => {
+        const poly = createPolygon(pts);
+        poly.classList.add('image-map-shape');
+        svg.appendChild(poly);
+    });
+    def.rects?.forEach(([x, y, w, h]) => {
+        const rect = createRect(x, y, w, h);
+        rect.classList.add('image-map-shape');
+        svg.appendChild(rect);
+    });
+    def.ellipses?.forEach(([cx, cy, rx, ry]) => {
+        const ell = createEllipse(cx, cy, rx, ry);
+        ell.classList.add('image-map-shape');
+        svg.appendChild(ell);
+    });
     return svg;
 }
