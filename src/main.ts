@@ -8,7 +8,7 @@ import { Plugin } from 'obsidian';
 import ImageContextMenu from './contextMenu';
 import {
   parseCoordinates,
-  shapesToSVG,
+  overlayImage,
   ShapeCoords,
 } from './imageMap';
 
@@ -52,14 +52,7 @@ export default class ImageMapPlugin extends Plugin {
 
         if (!externalSvg && !coords) continue;
 
-        const wrapper = createDiv({ cls: 'image-map-container' });
-        img.parentElement?.insertBefore(wrapper, img);
-        wrapper.appendChild(img);
-
-        const overlayEl = createDiv({ cls: 'image-map-overlay' });
-        if (externalSvg) overlayEl.innerHTML = externalSvg;
-        if (coords) overlayEl.appendChild(shapesToSVG(coords));
-        wrapper.appendChild(overlayEl);
+        overlayImage(img, coords, externalSvg);
       }
     });
 

@@ -126,7 +126,7 @@ export function shapesToSVG(def: ShapeCoords): SVGSVGElement {
  */
 export function overlayImage(
   img: HTMLImageElement,
-  coords: ShapeCoords,
+  coords?: ShapeCoords | null,
   externalSvg?: string,
 ): HTMLDivElement {
   const wrapper = document.createElement('div');
@@ -137,7 +137,12 @@ export function overlayImage(
   const overlayEl = document.createElement('div');
   overlayEl.classList.add('image-map-overlay');
   if (externalSvg) overlayEl.innerHTML = externalSvg;
-  overlayEl.appendChild(shapesToSVG(coords));
+  if (
+    coords &&
+    (coords.polygons?.length || coords.rects?.length || coords.ellipses?.length)
+  ) {
+    overlayEl.appendChild(shapesToSVG(coords));
+  }
   wrapper.appendChild(overlayEl);
 
   return wrapper;
