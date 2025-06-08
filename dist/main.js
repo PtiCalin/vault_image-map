@@ -1,4 +1,11 @@
+/*
+ * main.ts — Obsidian plugin entry.
+ * Depends on the obsidian API.
+ * Overlays SVGs on images.
+ * Friendly vibes, PtiCalin style.
+ */
 import { Plugin } from 'obsidian';
+import ImageContextMenu from './contextMenu';
 export default class ImageMapPlugin extends Plugin {
     /**
      * Called when the plugin is loaded.
@@ -34,6 +41,8 @@ export default class ImageMapPlugin extends Plugin {
             }
         });
         this.injectStyles();
+        // Initialize the image context menu
+        new ImageContextMenu(this).init();
     }
     /**
      * Injects the CSS styles needed for the overlay container and SVG layer.
