@@ -70,6 +70,8 @@ Add an HTML image tag with a `data-overlay` attribute pointing to an SVG file. T
 
 Any vectors in `my-overlay.svg` are positioned on top of the image. You can add animations or interactions using regular CSS selectors targeting `.image-map-overlay`.
 
+To create or modify image map coordinates directly inside Obsidian, simply **right-click any image** and choose **"Edit Image Map"** from the menu. The plugin registers this context menu item automatically. Selecting it opens an editing panel where you can draw rectangles, polygons, or ellipses on top of the image. Once you're done, hit *Save* and the coordinates will be written to a companion JSON file in your vault.
+
 ---
 
 ## 🧱 Folder Structure
