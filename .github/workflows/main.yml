@@ -1,4 +1,8 @@
 # .github/workflows/main.yml
+# Continuous integration for the Image Map plugin.
+# This workflow lints, builds and tests the code. The build step outputs
+# compiled files to the `dist/` directory and the results appear as
+# status checks on pull requests.
 
 name: 🔄 CI – Image Map Plugin Build Check
 
