@@ -18,7 +18,7 @@ image mapping features inside your vault.
 
 - 🔗 Create clickable regions on any image to jump to notes
 - 🖱️ Optional tooltips and hover effects for each region
-- ⚙️ VaultOS-ready modular structure (`src/`, `ops/`, `config/`, `dist/`)
+- ⚙️ VaultOS-ready modular structure (`src/` for sources and `dist/` for builds)
 - 📦 Rollup build system with `manifest.json`
 - 📁 Ready-to-use GitHub Actions and PR templates
 - 💬 Discussions and sponsor links for community-driven growth
@@ -61,8 +61,6 @@ Any vectors in `my-overlay.svg` are positioned on top of the image. You can add 
 ```plaintext
 src/           → TypeScript plugin source
 dist/          → Compiled output used by Obsidian
-ops/           → Plugin orchestration logic
-config/        → Static metadata and module configs
 .github/       → GitHub Actions, PR/issue templates
 ```
 
