@@ -1,3 +1,8 @@
+/**
+ * main.ts - Obsidian plugin entry.
+ * Depends on the Obsidian API.
+ * Overlays SVGs on images with the `data-overlay` attribute.
+ */
 import { Plugin } from 'obsidian';
 export default class ImageMapPlugin extends Plugin {
     /**
