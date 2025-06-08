@@ -5,7 +5,7 @@
   "minAppVersion": "0.15.0",
   "description": "Overlay images with interactive SVG vectors.",
   "author": "PtiCalin",
-  "authorUrl": "https://github.com/your-username",
+  "authorUrl": "https://github.com/PtiCalin",
   "isDesktopOnly": false,
   "main": "dist/main.js",
   "css": "styles.css"
