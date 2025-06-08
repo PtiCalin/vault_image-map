@@ -93,3 +93,25 @@ export function shapesToSVG(def: ShapeCoords): SVGSVGElement {
 
   return svg;
 }
+
+/**
+ * Wrap the image in a container and append an SVG overlay.
+ */
+export function overlayImage(
+  img: HTMLImageElement,
+  coords: ShapeCoords,
+  externalSvg?: string,
+): HTMLDivElement {
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('image-map-container');
+  img.parentElement?.insertBefore(wrapper, img);
+  wrapper.appendChild(img);
+
+  const overlayEl = document.createElement('div');
+  overlayEl.classList.add('image-map-overlay');
+  if (externalSvg) overlayEl.innerHTML = externalSvg;
+  overlayEl.appendChild(shapesToSVG(coords));
+  wrapper.appendChild(overlayEl);
+
+  return wrapper;
+}
