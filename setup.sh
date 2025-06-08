@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
-# Setup script for the Image Map plugin
-# It installs dependencies and builds the project.
+
+# ---------------------------------------------------------
+#  File: setup.sh
+#  Purpose: install dependencies and build the Image Map plugin.
+#  Dependencies: bash, npm, and optional Codex for network setup.
+#  Output: populated dist/ directory with compiled assets.
+# ---------------------------------------------------------
+
+
 set -euo pipefail
 
+# === CONFIGURATION ===
 # Optional: request network access in Codex environments
 if [[ -n "${CODEX_ENABLE_NETWORK:-}" ]]; then
   if command -v codex >/dev/null 2>&1; then
@@ -10,6 +18,10 @@ if [[ -n "${CODEX_ENABLE_NETWORK:-}" ]]; then
   fi
 fi
 
+# === MAIN EXECUTION ===
 npm install
 npm run build
+
+# === CLEANUP ===
+# Nothing to clean up
 
