@@ -72,6 +72,8 @@ Any vectors in `my-overlay.svg` are positioned on top of the image. You can add 
 
 To create or modify image map coordinates directly inside Obsidian, simply **right-click any image** and choose **"Edit Image Map"** from the menu. The plugin registers this context menu item automatically. Selecting it opens an editing panel where you can draw rectangles, polygons, or ellipses on top of the image. Once you're done, hit *Save* and the coordinates will be written to a companion JSON file in your vault.
 
+The plugin can also render these shapes automatically from stored coordinates. Either supply a `data-coordinates` attribute containing JSON, or define a matching entry under `imageMaps` in your note's front-matter. On render, the coordinates are converted into `<polygon>`, `<rect>`, or `<ellipse>` elements that layer on top of the image, alongside any external SVG.
+
 ---
 
 ## 🧱 Folder Structure

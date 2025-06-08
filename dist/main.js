@@ -6,7 +6,7 @@
  */
 import { Plugin } from 'obsidian';
 import ImageContextMenu from './contextMenu';
-import { parseCoordinates, shapesToSVG, } from './imageMap';
+import { parseCoordinates, overlayImage, } from './imageMap';
 export default class ImageMapPlugin extends Plugin {
     /**
      * Called when the plugin is loaded.
@@ -37,15 +37,7 @@ export default class ImageMapPlugin extends Plugin {
                 const coords = parseCoordinates(img, ctx.frontmatter);
                 if (!externalSvg && !coords)
                     continue;
-                const wrapper = createDiv({ cls: 'image-map-container' });
-                img.parentElement?.insertBefore(wrapper, img);
-                wrapper.appendChild(img);
-                const overlayEl = createDiv({ cls: 'image-map-overlay' });
-                if (externalSvg)
-                    overlayEl.innerHTML = externalSvg;
-                if (coords)
-                    overlayEl.appendChild(shapesToSVG(coords));
-                wrapper.appendChild(overlayEl);
+                overlayImage(img, coords, externalSvg);
             }
         });
         // Initialize the image context menu
