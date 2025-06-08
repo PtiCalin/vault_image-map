@@ -18,6 +18,7 @@ image mapping features inside your vault.
 
 - 🔗 Create clickable regions on any image to jump to notes
 - 🖱️ Optional tooltips and hover effects for each region
+- 🖍️ Built-in editor opened by right-clicking an image
 - ⚙️ VaultOS-ready modular structure (`src/` for sources and `dist/` for builds)
 - 📦 Rollup build system with `manifest.json`
 - 📁 Ready-to-use GitHub Actions and PR templates
@@ -70,7 +71,12 @@ Add an HTML image tag with a `data-overlay` attribute pointing to an SVG file. T
 
 Any vectors in `my-overlay.svg` are positioned on top of the image. You can add animations or interactions using regular CSS selectors targeting `.image-map-overlay`.
 
-To create or modify image map coordinates directly inside Obsidian, simply **right-click any image** and choose **"Edit Image Map"** from the menu. The plugin registers this context menu item automatically. Selecting it opens an editing panel where you can draw rectangles, polygons, or ellipses on top of the image. Once you're done, hit *Save* and the coordinates will be written to a companion JSON file in your vault.
+#### Open the Image Map Editor
+
+1. **Right-click** an image in your note.
+2. Choose **"Edit Image Map"** from the context menu. *(The plugin registers this option automatically.)*
+3. An editing panel appears where you can draw rectangles, polygons, or ellipses over the image.
+4. Click **Save** to write the coordinates to a companion JSON file in your vault.
 
 The plugin can also render these shapes automatically from stored coordinates. Either supply a `data-coordinates` attribute containing JSON, or define a matching entry under `imageMaps` in your note's front-matter. On render, the coordinates are converted into `<polygon>`, `<rect>`, or `<ellipse>` elements that layer on top of the image, alongside any external SVG.
 
