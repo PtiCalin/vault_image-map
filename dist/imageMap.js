@@ -11,7 +11,7 @@ export function parseCoordinates(img, frontmatter) {
             return JSON.parse(json);
         }
         catch (e) {
-            console.error('Invalid data-coordinates JSON', e);
+            console.error('📐 Invalid data-coordinates JSON. Check your syntax or frontmatter.', e);
         }
     }
     const key = img.getAttribute('data-map');
@@ -21,11 +21,26 @@ export function parseCoordinates(img, frontmatter) {
     return null;
 }
 const NS = 'http://www.w3.org/2000/svg';
+/**
+ * Create an SVG polygon element from a series of points.
+ *
+ * @param points - Space separated list of "x,y" coordinate pairs
+ * @returns The polygon element
+ */
 export function createPolygon(points) {
     const el = document.createElementNS(NS, 'polygon');
     el.setAttribute('points', points);
     return el;
 }
+/**
+ * Create an SVG rectangle element.
+ *
+ * @param x - Top-left X coordinate
+ * @param y - Top-left Y coordinate
+ * @param width - Width of the rectangle
+ * @param height - Height of the rectangle
+ * @returns The rectangle element
+ */
 export function createRect(x, y, width, height) {
     const el = document.createElementNS(NS, 'rect');
     el.setAttribute('x', String(x));
@@ -34,6 +49,15 @@ export function createRect(x, y, width, height) {
     el.setAttribute('height', String(height));
     return el;
 }
+/**
+ * Create an SVG ellipse element.
+ *
+ * @param cx - Center X coordinate
+ * @param cy - Center Y coordinate
+ * @param rx - Radius on the X axis
+ * @param ry - Radius on the Y axis
+ * @returns The ellipse element
+ */
 export function createEllipse(cx, cy, rx, ry) {
     const el = document.createElementNS(NS, 'ellipse');
     el.setAttribute('cx', String(cx));
@@ -65,4 +89,20 @@ export function shapesToSVG(def) {
         svg.appendChild(ell);
     });
     return svg;
+}
+/**
+ * Wrap the image in a container and append an SVG overlay.
+ */
+export function overlayImage(img, coords, externalSvg) {
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('image-map-container');
+    img.parentElement?.insertBefore(wrapper, img);
+    wrapper.appendChild(img);
+    const overlayEl = document.createElement('div');
+    overlayEl.classList.add('image-map-overlay');
+    if (externalSvg)
+        overlayEl.innerHTML = externalSvg;
+    overlayEl.appendChild(shapesToSVG(coords));
+    wrapper.appendChild(overlayEl);
+    return wrapper;
 }

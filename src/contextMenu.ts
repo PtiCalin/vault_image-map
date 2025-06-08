@@ -7,6 +7,11 @@ import ImagePanel from './panel';
 export default class ImageContextMenu {
   plugin: Plugin;
 
+  /**
+   * Create a new context menu helper.
+   *
+   * @param plugin - Owning plugin instance
+   */
   constructor(plugin: Plugin) {
     this.plugin = plugin;
   }

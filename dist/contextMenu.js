@@ -4,6 +4,11 @@ import ImagePanel from './panel';
  * Sets up an image context menu that opens {@link ImagePanel}.
  */
 export default class ImageContextMenu {
+    /**
+     * Create a new context menu helper.
+     *
+     * @param plugin - Owning plugin instance
+     */
     constructor(plugin) {
         this.plugin = plugin;
     }

@@ -7,6 +7,13 @@ const NS = 'http://www.w3.org/2000/svg';
  * saved to a side JSON file inside the vault.
  */
 export default class ImagePanel extends Modal {
+    /**
+     * Create a new image map editing panel.
+     *
+     * @param app - The Obsidian app instance
+     * @param plugin - Reference to the owning plugin
+     * @param img - The image element being edited
+     */
     constructor(app, plugin, img) {
         super(app);
         this.coords = { polygons: [], rects: [], ellipses: [] };
@@ -16,6 +23,9 @@ export default class ImagePanel extends Modal {
         this.plugin = plugin;
         this.img = img;
     }
+    /**
+     * Build the modal UI and register event listeners.
+     */
     onOpen() {
         const { contentEl } = this;
         contentEl.empty();
@@ -52,6 +62,11 @@ export default class ImagePanel extends Modal {
         container.appendChild(this.svg);
         this.svg.addEventListener('mousedown', (evt) => this.onMouseDown(evt));
     }
+    /**
+     * Delegate mouse events to the active drawing tool.
+     *
+     * @param evt - Mouse event on the SVG canvas
+     */
     onMouseDown(evt) {
         if (this.tool === 'rect') {
             this.startRect(evt);
@@ -63,12 +78,23 @@ export default class ImagePanel extends Modal {
             this.addPolygonPoint(evt);
         }
     }
+    /**
+     * Convert a mouse event to SVG viewbox coordinates (0-100%).
+     *
+     * @param evt - Mouse event to convert
+     * @returns Coordinates relative to the SVG
+     */
     getSvgCoords(evt) {
         const rect = this.svg.getBoundingClientRect();
         const x = ((evt.clientX - rect.left) / rect.width) * 100;
         const y = ((evt.clientY - rect.top) / rect.height) * 100;
         return { x, y };
     }
+    /**
+     * Start drawing a rectangle and handle its mouse events.
+     *
+     * @param evt - Initial mouse down event
+     */
     startRect(evt) {
         const start = this.getSvgCoords(evt);
         const rectEl = createRect(start.x, start.y, 0, 0);
@@ -103,6 +129,11 @@ export default class ImagePanel extends Modal {
         document.addEventListener('mousemove', move);
         document.addEventListener('mouseup', up);
     }
+    /**
+     * Start drawing an ellipse and handle its mouse events.
+     *
+     * @param evt - Initial mouse down event
+     */
     startEllipse(evt) {
         const start = this.getSvgCoords(evt);
         const ell = createEllipse(start.x, start.y, 0, 0);
@@ -125,6 +156,11 @@ export default class ImagePanel extends Modal {
         document.addEventListener('mousemove', move);
         document.addEventListener('mouseup', up);
     }
+    /**
+     * Add a polygon vertex. Double-click completes the polygon.
+     *
+     * @param evt - Mouse event indicating the vertex position
+     */
     addPolygonPoint(evt) {
         const p = this.getSvgCoords(evt);
         this.currentPoints.push(`${p.x},${p.y}`);
@@ -143,6 +179,9 @@ export default class ImagePanel extends Modal {
             this.tempEl = null;
         }
     }
+    /**
+     * Draw handles at the rectangle corners.
+     */
     addRectHandles(x, y, w, h) {
         const points = [
             [x, y],
@@ -152,15 +191,24 @@ export default class ImagePanel extends Modal {
         ];
         points.forEach(([cx, cy]) => this.addHandle(cx, cy));
     }
+    /**
+     * Draw the center handle for an ellipse.
+     */
     addEllipseHandles(cx, cy) {
         this.addHandle(cx, cy);
     }
+    /**
+     * Draw handles for each polygon vertex.
+     */
     addPolygonHandles(points) {
         points.forEach((pt) => {
             const [x, y] = pt.split(',').map(Number);
             this.addHandle(x, y);
         });
     }
+    /**
+     * Draw a small circle at the given coordinates.
+     */
     addHandle(cx, cy) {
         const h = document.createElementNS(NS, 'circle');
         h.setAttribute('cx', String(cx));
@@ -169,6 +217,9 @@ export default class ImagePanel extends Modal {
         h.classList.add('image-map-handle');
         this.svg.appendChild(h);
     }
+    /**
+     * Save the collected coordinates next to the image file.
+     */
     async saveCoords() {
         const json = JSON.stringify(this.coords, null, 2);
         // Determine the vault file associated with the image source.
@@ -182,10 +233,13 @@ export default class ImagePanel extends Modal {
             new Notice(`Image map saved to ${file}`);
         }
         catch (e) {
-            console.error('Failed to save coordinates', e);
+            console.error('💾 Failed to save coordinates. Check file permissions or disk space.', e);
             new Notice('Failed to save coordinates');
         }
     }
+    /**
+     * Clean up DOM elements when the modal closes.
+     */
     onClose() {
         const { contentEl } = this;
         contentEl.empty();
