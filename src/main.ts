@@ -1,3 +1,9 @@
+/*
+ * main.ts — Obsidian plugin entry.
+ * Depends on the obsidian API.
+ * Overlays SVGs on images.
+ * Friendly vibes, PtiCalin style.
+ */
 import { Plugin } from 'obsidian';
 
 export default class ImageMapPlugin extends Plugin {
