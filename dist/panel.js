@@ -171,8 +171,12 @@ export default class ImagePanel extends Modal {
     }
     async saveCoords() {
         const json = JSON.stringify(this.coords, null, 2);
-        const base = this.img.src.split('/').pop() || 'image';
-        const file = `${base}.map.json`;
+        // Determine the vault file associated with the image source.
+        const src = this.img.getAttribute('src') ?? '';
+        const active = this.plugin.app.workspace.getActiveFile?.();
+        const imgFile = this.plugin.app.metadataCache.getFirstLinkpathDest(src, active?.path ?? '');
+        // Write the JSON next to the image file when possible.
+        const file = imgFile ? `${imgFile.path}.map.json` : `${src.split('/').pop() || 'image'}.map.json`;
         try {
             await this.plugin.app.vault.adapter.write(file, json);
             new Notice(`Image map saved to ${file}`);
