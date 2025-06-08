@@ -23,8 +23,8 @@ export default class ImageContextMenu {
       if (target.tagName.toLowerCase() === 'img') {
         const menu = new Menu();
         menu.addItem((item: any) => {
-          item.setTitle('Open Image Panel').onClick(() => {
-            new ImagePanel(this.plugin.app).open();
+          item.setTitle('Edit Image Map').onClick(() => {
+            new ImagePanel(this.plugin.app, this.plugin, target as HTMLImageElement).open();
           });
         });
         menu.showAtMouseEvent(evt);

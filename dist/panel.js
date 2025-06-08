@@ -1,16 +1,176 @@
-import { Modal } from 'obsidian';
+import { Modal, Notice } from 'obsidian';
+import { createPolygon, createRect, createEllipse, } from './imageMap';
+const NS = 'http://www.w3.org/2000/svg';
 /**
- * Simple modal panel displayed when the user activates the image context menu.
+ * Modal panel used to edit image maps. Users can draw polygons, rectangles
+ * and ellipses directly on top of the selected image. The coordinates are
+ * saved to a side JSON file inside the vault.
  */
 export default class ImagePanel extends Modal {
-    constructor(app) {
+    constructor(app, plugin, img) {
         super(app);
+        this.coords = { polygons: [], rects: [], ellipses: [] };
+        this.tool = null;
+        this.currentPoints = [];
+        this.tempEl = null;
+        this.plugin = plugin;
+        this.img = img;
     }
     onOpen() {
         const { contentEl } = this;
         contentEl.empty();
-        contentEl.createEl('h2', { text: 'Image Panel' });
-        contentEl.createEl('p', { text: 'You opened the image panel from the context menu.' });
+        contentEl.createEl('h2', { text: 'Edit Image Map' });
+        const toolbar = createDiv({ cls: 'image-map-toolbar' });
+        contentEl.appendChild(toolbar);
+        const polyBtn = document.createElement('button');
+        polyBtn.textContent = 'Polygon';
+        polyBtn.addEventListener('click', () => (this.tool = 'polygon'));
+        toolbar.appendChild(polyBtn);
+        const rectBtn = document.createElement('button');
+        rectBtn.textContent = 'Rectangle';
+        rectBtn.addEventListener('click', () => (this.tool = 'rect'));
+        toolbar.appendChild(rectBtn);
+        const ellBtn = document.createElement('button');
+        ellBtn.textContent = 'Ellipse';
+        ellBtn.addEventListener('click', () => (this.tool = 'ellipse'));
+        toolbar.appendChild(ellBtn);
+        const saveBtn = document.createElement('button');
+        saveBtn.textContent = 'Save';
+        saveBtn.addEventListener('click', () => this.saveCoords());
+        toolbar.appendChild(saveBtn);
+        const container = createDiv({ cls: 'image-map-editor-container' });
+        contentEl.appendChild(container);
+        const imgEl = document.createElement('img');
+        imgEl.src = this.img.src;
+        container.appendChild(imgEl);
+        imgEl.style.maxWidth = '100%';
+        imgEl.style.display = 'block';
+        this.svg = document.createElementNS(NS, 'svg');
+        this.svg.classList.add('image-map-editor');
+        this.svg.setAttribute('viewBox', '0 0 100 100');
+        this.svg.setAttribute('preserveAspectRatio', 'none');
+        container.appendChild(this.svg);
+        this.svg.addEventListener('mousedown', (evt) => this.onMouseDown(evt));
+    }
+    onMouseDown(evt) {
+        if (this.tool === 'rect') {
+            this.startRect(evt);
+        }
+        else if (this.tool === 'ellipse') {
+            this.startEllipse(evt);
+        }
+        else if (this.tool === 'polygon') {
+            this.addPolygonPoint(evt);
+        }
+    }
+    getSvgCoords(evt) {
+        const rect = this.svg.getBoundingClientRect();
+        const x = ((evt.clientX - rect.left) / rect.width) * 100;
+        const y = ((evt.clientY - rect.top) / rect.height) * 100;
+        return { x, y };
+    }
+    startRect(evt) {
+        const start = this.getSvgCoords(evt);
+        const rectEl = createRect(start.x, start.y, 0, 0);
+        rectEl.classList.add('image-map-shape');
+        this.svg.appendChild(rectEl);
+        const move = (e) => {
+            const cur = this.getSvgCoords(e);
+            const width = cur.x - start.x;
+            const height = cur.y - start.y;
+            rectEl.setAttribute('width', String(width));
+            rectEl.setAttribute('height', String(height));
+        };
+        const up = (e) => {
+            document.removeEventListener('mousemove', move);
+            document.removeEventListener('mouseup', up);
+            const end = this.getSvgCoords(e);
+            const w = end.x - start.x;
+            const h = end.y - start.y;
+            this.coords.rects?.push([start.x, start.y, w, h]);
+            this.addRectHandles(start.x, start.y, w, h);
+        };
+        document.addEventListener('mousemove', move);
+        document.addEventListener('mouseup', up);
+    }
+    startEllipse(evt) {
+        const start = this.getSvgCoords(evt);
+        const ell = createEllipse(start.x, start.y, 0, 0);
+        ell.classList.add('image-map-shape');
+        this.svg.appendChild(ell);
+        const move = (e) => {
+            const cur = this.getSvgCoords(e);
+            ell.setAttribute('rx', String(Math.abs(cur.x - start.x)));
+            ell.setAttribute('ry', String(Math.abs(cur.y - start.y)));
+        };
+        const up = (e) => {
+            document.removeEventListener('mousemove', move);
+            document.removeEventListener('mouseup', up);
+            const end = this.getSvgCoords(e);
+            const rx = Math.abs(end.x - start.x);
+            const ry = Math.abs(end.y - start.y);
+            this.coords.ellipses?.push([start.x, start.y, rx, ry]);
+            this.addEllipseHandles(start.x, start.y);
+        };
+        document.addEventListener('mousemove', move);
+        document.addEventListener('mouseup', up);
+    }
+    addPolygonPoint(evt) {
+        const p = this.getSvgCoords(evt);
+        this.currentPoints.push(`${p.x},${p.y}`);
+        if (!this.tempEl) {
+            this.tempEl = createPolygon(this.currentPoints.join(' '));
+            this.tempEl.classList.add('image-map-shape');
+            this.svg.appendChild(this.tempEl);
+        }
+        else {
+            this.tempEl.setAttribute('points', this.currentPoints.join(' '));
+        }
+        if (evt.detail === 2) {
+            this.coords.polygons?.push(this.currentPoints.join(' '));
+            this.addPolygonHandles(this.currentPoints);
+            this.currentPoints = [];
+            this.tempEl = null;
+        }
+    }
+    addRectHandles(x, y, w, h) {
+        const points = [
+            [x, y],
+            [x + w, y],
+            [x, y + h],
+            [x + w, y + h],
+        ];
+        points.forEach(([cx, cy]) => this.addHandle(cx, cy));
+    }
+    addEllipseHandles(cx, cy) {
+        this.addHandle(cx, cy);
+    }
+    addPolygonHandles(points) {
+        points.forEach((pt) => {
+            const [x, y] = pt.split(',').map(Number);
+            this.addHandle(x, y);
+        });
+    }
+    addHandle(cx, cy) {
+        const h = document.createElementNS(NS, 'circle');
+        h.setAttribute('cx', String(cx));
+        h.setAttribute('cy', String(cy));
+        h.setAttribute('r', '2');
+        h.classList.add('image-map-handle');
+        this.svg.appendChild(h);
+    }
+    async saveCoords() {
+        const json = JSON.stringify(this.coords, null, 2);
+        const base = this.img.src.split('/').pop() || 'image';
+        const file = `${base}.map.json`;
+        try {
+            await this.plugin.app.vault.adapter.write(file, json);
+            new Notice(`Image map saved to ${file}`);
+        }
+        catch (e) {
+            console.error('Failed to save coordinates', e);
+            new Notice('Failed to save coordinates');
+        }
     }
     onClose() {
         const { contentEl } = this;
