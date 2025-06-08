@@ -22,12 +22,22 @@ export default class ImagePanel extends Modal {
   currentPoints: string[] = [];
   tempEl: SVGElement | null = null;
 
+  /**
+   * Create a new image map editing panel.
+   *
+   * @param app - The Obsidian app instance
+   * @param plugin - Reference to the owning plugin
+   * @param img - The image element being edited
+   */
   constructor(app: App, plugin: Plugin, img: HTMLImageElement) {
     super(app);
     this.plugin = plugin;
     this.img = img;
   }
 
+  /**
+   * Build the modal UI and register event listeners.
+   */
   onOpen() {
     const { contentEl } = this;
     contentEl.empty();
@@ -69,6 +79,11 @@ export default class ImagePanel extends Modal {
     this.svg.addEventListener('mousedown', (evt) => this.onMouseDown(evt));
   }
 
+  /**
+   * Delegate mouse events to the active drawing tool.
+   *
+   * @param evt - Mouse event on the SVG canvas
+   */
   onMouseDown(evt: MouseEvent) {
     if (this.tool === 'rect') {
       this.startRect(evt);
@@ -79,6 +94,12 @@ export default class ImagePanel extends Modal {
     }
   }
 
+  /**
+   * Convert a mouse event to SVG viewbox coordinates (0-100%).
+   *
+   * @param evt - Mouse event to convert
+   * @returns Coordinates relative to the SVG
+   */
   getSvgCoords(evt: MouseEvent) {
     const rect = this.svg.getBoundingClientRect();
     const x = ((evt.clientX - rect.left) / rect.width) * 100;
@@ -86,6 +107,11 @@ export default class ImagePanel extends Modal {
     return { x, y };
   }
 
+  /**
+   * Start drawing a rectangle and handle its mouse events.
+   *
+   * @param evt - Initial mouse down event
+   */
   startRect(evt: MouseEvent) {
     const start = this.getSvgCoords(evt);
     const rectEl = createRect(start.x, start.y, 0, 0);
@@ -124,6 +150,11 @@ export default class ImagePanel extends Modal {
     document.addEventListener('mouseup', up);
   }
 
+  /**
+   * Start drawing an ellipse and handle its mouse events.
+   *
+   * @param evt - Initial mouse down event
+   */
   startEllipse(evt: MouseEvent) {
     const start = this.getSvgCoords(evt);
     const ell = createEllipse(start.x, start.y, 0, 0);
@@ -150,6 +181,11 @@ export default class ImagePanel extends Modal {
     document.addEventListener('mouseup', up);
   }
 
+  /**
+   * Add a polygon vertex. Double-click completes the polygon.
+   *
+   * @param evt - Mouse event indicating the vertex position
+   */
   addPolygonPoint(evt: MouseEvent) {
     const p = this.getSvgCoords(evt);
     this.currentPoints.push(`${p.x},${p.y}`);
@@ -169,6 +205,9 @@ export default class ImagePanel extends Modal {
     }
   }
 
+  /**
+   * Draw handles at the rectangle corners.
+   */
   addRectHandles(x: number, y: number, w: number, h: number) {
     const points = [
       [x, y],
@@ -179,10 +218,16 @@ export default class ImagePanel extends Modal {
     points.forEach(([cx, cy]) => this.addHandle(cx, cy));
   }
 
+  /**
+   * Draw the center handle for an ellipse.
+   */
   addEllipseHandles(cx: number, cy: number) {
     this.addHandle(cx, cy);
   }
 
+  /**
+   * Draw handles for each polygon vertex.
+   */
   addPolygonHandles(points: string[]) {
     points.forEach((pt) => {
       const [x, y] = pt.split(',').map(Number);
@@ -190,6 +235,9 @@ export default class ImagePanel extends Modal {
     });
   }
 
+  /**
+   * Draw a small circle at the given coordinates.
+   */
   addHandle(cx: number, cy: number) {
     const h = document.createElementNS(NS, 'circle');
     h.setAttribute('cx', String(cx));
@@ -199,6 +247,9 @@ export default class ImagePanel extends Modal {
     this.svg.appendChild(h);
   }
 
+  /**
+   * Save the collected coordinates next to the image file.
+   */
   async saveCoords() {
     const json = JSON.stringify(this.coords, null, 2);
 
@@ -217,11 +268,17 @@ export default class ImagePanel extends Modal {
       await (this.plugin.app.vault.adapter as any).write(file, json);
       new Notice(`Image map saved to ${file}`);
     } catch (e) {
-      console.error('Failed to save coordinates', e);
+      console.error(
+        '💾 Failed to save coordinates. Check file permissions or disk space.',
+        e,
+      );
       new Notice('Failed to save coordinates');
     }
   }
 
+  /**
+   * Clean up DOM elements when the modal closes.
+   */
   onClose() {
     const { contentEl } = this;
     contentEl.empty();

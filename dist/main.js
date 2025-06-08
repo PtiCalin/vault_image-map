@@ -28,9 +28,9 @@ export default class ImageMapPlugin extends Plugin {
                             externalSvg = await this.app.vault.read(file);
                         }
                         catch (err) {
-                            console.error(`❌ Unable to load overlay "${overlay}". ` +
-                                'Please verify the path and ensure the SVG exists. ' +
-                                'Reload Obsidian if the issue persists.', err);
+                            console.error(`🚧 Couldn't load overlay "${overlay}". ` +
+                                'Check that the path is correct and the SVG exists in your vault. ' +
+                                'Try reloading Obsidian if the problem continues.', err);
                         }
                     }
                 }

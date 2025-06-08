@@ -19,7 +19,10 @@ export function parseCoordinates(
     try {
       return JSON.parse(json) as ShapeCoords;
     } catch (e) {
-      console.error('Invalid data-coordinates JSON', e);
+      console.error(
+        '📐 Invalid data-coordinates JSON. Check your syntax or frontmatter.',
+        e,
+      );
     }
   }
   const key = img.getAttribute('data-map');
@@ -31,12 +34,27 @@ export function parseCoordinates(
 
 const NS = 'http://www.w3.org/2000/svg';
 
+/**
+ * Create an SVG polygon element from a series of points.
+ *
+ * @param points - Space separated list of "x,y" coordinate pairs
+ * @returns The polygon element
+ */
 export function createPolygon(points: string): SVGPolygonElement {
   const el = document.createElementNS(NS, 'polygon');
   el.setAttribute('points', points);
   return el;
 }
 
+/**
+ * Create an SVG rectangle element.
+ *
+ * @param x - Top-left X coordinate
+ * @param y - Top-left Y coordinate
+ * @param width - Width of the rectangle
+ * @param height - Height of the rectangle
+ * @returns The rectangle element
+ */
 export function createRect(
   x: number,
   y: number,
@@ -51,6 +69,15 @@ export function createRect(
   return el;
 }
 
+/**
+ * Create an SVG ellipse element.
+ *
+ * @param cx - Center X coordinate
+ * @param cy - Center Y coordinate
+ * @param rx - Radius on the X axis
+ * @param ry - Radius on the Y axis
+ * @returns The ellipse element
+ */
 export function createEllipse(
   cx: number,
   cy: number,
