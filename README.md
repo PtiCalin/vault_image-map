@@ -92,8 +92,8 @@ We welcome contributions of all kinds!
 
 Use our templates to get started:
 
-- [🐛 Bug Reports](./.github/ISSUE_TEMPLATE/bug.yml)
-- [🌟 Feature Requests](./.github/ISSUE_TEMPLATE/feature-request.yml)
+- [🐛 Bug Reports](../../issues/new?template=bug.yml)
+- [🌟 Feature Requests](../../issues/new?template=feature-request.yml)
 - [📦 Pull Requests](./.github/PULL_REQUEST_TEMPLATE.md)
 
 Read our [CONTRIBUTING.md](CONTRIBUTING.md) for more info, or start a conversation in [💬 GitHub Discussions](https://github.com/PtiCalin/image-map-plugin/discussions).
