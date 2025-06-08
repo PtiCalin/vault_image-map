@@ -76,8 +76,12 @@ export default class ImagePanel extends Modal {
         this.svg.appendChild(rectEl);
         const move = (e) => {
             const cur = this.getSvgCoords(e);
-            const width = cur.x - start.x;
-            const height = cur.y - start.y;
+            const x = Math.min(start.x, cur.x);
+            const y = Math.min(start.y, cur.y);
+            const width = Math.abs(cur.x - start.x);
+            const height = Math.abs(cur.y - start.y);
+            rectEl.setAttribute('x', String(x));
+            rectEl.setAttribute('y', String(y));
             rectEl.setAttribute('width', String(width));
             rectEl.setAttribute('height', String(height));
         };
@@ -85,10 +89,16 @@ export default class ImagePanel extends Modal {
             document.removeEventListener('mousemove', move);
             document.removeEventListener('mouseup', up);
             const end = this.getSvgCoords(e);
-            const w = end.x - start.x;
-            const h = end.y - start.y;
-            this.coords.rects?.push([start.x, start.y, w, h]);
-            this.addRectHandles(start.x, start.y, w, h);
+            const x = Math.min(start.x, end.x);
+            const y = Math.min(start.y, end.y);
+            const w = Math.abs(end.x - start.x);
+            const h = Math.abs(end.y - start.y);
+            rectEl.setAttribute('x', String(x));
+            rectEl.setAttribute('y', String(y));
+            rectEl.setAttribute('width', String(w));
+            rectEl.setAttribute('height', String(h));
+            this.coords.rects?.push([x, y, w, h]);
+            this.addRectHandles(x, y, w, h);
         };
         document.addEventListener('mousemove', move);
         document.addEventListener('mouseup', up);
