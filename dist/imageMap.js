@@ -102,7 +102,10 @@ export function overlayImage(img, coords, externalSvg) {
     overlayEl.classList.add('image-map-overlay');
     if (externalSvg)
         overlayEl.innerHTML = externalSvg;
-    overlayEl.appendChild(shapesToSVG(coords));
+    if (coords &&
+        (coords.polygons?.length || coords.rects?.length || coords.ellipses?.length)) {
+        overlayEl.appendChild(shapesToSVG(coords));
+    }
     wrapper.appendChild(overlayEl);
     return wrapper;
 }
