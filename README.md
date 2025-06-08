@@ -9,8 +9,8 @@ image mapping features inside your vault.
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Status: WIP](https://img.shields.io/badge/status-WIP-yellow.svg)](WIP)
 [![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./.github/PULL_REQUEST_TEMPLATE.md)
-[![GitHub Discussions](https://img.shields.io/badge/💬-Discussions-blueviolet?logo=github)](https://github.com/your-username/image-map-plugin/discussions)
-[![Sponsor PtiCalin](https://img.shields.io/badge/Sponsor-💖-f06292.svg?logo=githubsponsors)](https://github.com/sponsors/your-username)
+[![GitHub Discussions](https://img.shields.io/badge/💬-Discussions-blueviolet?logo=github)](https://github.com/PtiCalin/image-map-plugin/discussions)
+[![Sponsor PtiCalin](https://img.shields.io/badge/Sponsor-💖-f06292.svg?logo=githubsponsors)](https://github.com/sponsors/PtiCalin)
 
 ---
 
@@ -30,7 +30,7 @@ image mapping features inside your vault.
 Clone this repository to build or extend the plugin:
 
 ```bash
-git clone https://github.com/your-username/image-map-plugin.git
+git clone https://github.com/PtiCalin/image-map-plugin.git
 cd image-map-plugin
 ```
 
@@ -78,7 +78,7 @@ Use our templates to get started:
 - [🌟 Feature Requests](./.github/ISSUE_TEMPLATE/feature_request.md)
 - [📦 Pull Requests](./.github/PULL_REQUEST_TEMPLATE.md)
 
-Read our [CONTRIBUTING.md](CONTRIBUTING.md) for more info, or start a conversation in [💬 GitHub Discussions](https://github.com/your-username/image-map-plugin/discussions).
+Read our [CONTRIBUTING.md](CONTRIBUTING.md) for more info, or start a conversation in [💬 GitHub Discussions](https://github.com/PtiCalin/image-map-plugin/discussions).
 
 ---
 
@@ -92,7 +92,7 @@ Use freely, fork creatively — just spread the love.
 ## 💌 Sponsor
 
 If this plugin saved you time or you simply enjoy using it, consider sponsoring:
-[**github.com/sponsors/your-username**](https://github.com/sponsors/PtiCalin)
+[**github.com/sponsors/PtiCalin**](https://github.com/sponsors/PtiCalin)
 
 ---
 
