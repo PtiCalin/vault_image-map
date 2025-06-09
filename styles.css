@@ -66,3 +66,20 @@
 .image-map-handle:hover {
   fill: #e0e0ff;
 }
+
+/* Highlight the currently selected shape in the editor.
+ * Override `.image-map-shape.is-selected` in your vault theme. */
+.image-map-shape.is-selected {
+  stroke: red;
+}
+
+/* Hovered drag handle color. Customize `.image-map-handle.is-hovered` */
+.image-map-handle.is-hovered {
+  fill: #e0e0ff;
+}
+
+/* Indicates a shape can be edited. Override `.image-map-shape.is-editable` */
+.image-map-shape.is-editable {
+  cursor: move;
+  stroke-dasharray: 3;
+}
