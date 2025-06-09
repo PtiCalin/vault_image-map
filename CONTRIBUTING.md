@@ -26,12 +26,14 @@ This repo is built on curiosity, creativity, and care — and *you* are part of 
 git clone https://github.com/PtiCalin/image-map-plugin.git
 cd image-map-plugin
 ```
+✅ Repo cloned
 
 ### 2. Create a Branch
 
 ```bash
 git checkout -b feat/amazing-idea
 ```
+✅ Branch created
 
 ### 3. Make Your Changes
 
@@ -42,6 +44,7 @@ git add .
 git commit -m "Add: your amazing contribution"
 git push origin feat/amazing-idea
 ```
+✅ Code pushed
 
 ---
 

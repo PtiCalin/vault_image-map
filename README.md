@@ -27,30 +27,34 @@ image mapping features inside your vault.
 
 ## 🚀 Getting Started
 
-Clone this repository to build or extend the plugin:
+Run these commands to clone the repo and step inside:
 
 ```bash
 git clone https://github.com/PtiCalin/image-map-plugin.git
 cd image-map-plugin
 ```
+✅ Repo ready for action
 
 ### 🛠 Local Setup
+
+Install dependencies and build the plugin:
 
 ```bash
 npm install
 npm run build
 ```
+✅ Build complete
 
 ### ⚙️ Automated Setup (Codex)
 
-If you're running this repository in a Codex environment, place the commands
-above in a `setup.sh` script at the project root:
+Prefer automation? Pop these lines into a `setup.sh` script:
 
 ```bash
 #!/usr/bin/env bash
 npm install
 npm run build
 ```
+✅ Setup script ready
 
 Make the script executable with `chmod +x setup.sh`. Codex will run it
 automatically when the workspace starts. If network access is restricted,
