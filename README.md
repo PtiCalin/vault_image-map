@@ -73,7 +73,8 @@ Add an HTML image tag with a `data-overlay` attribute pointing to an SVG file. T
 ```
 
 Any vectors in `my-overlay.svg` are positioned on top of the image. You can add animations or interactions using regular CSS selectors targeting `.image-map-overlay`.
-**Editing an Image Map**
+
+### 🖱️ Editing an Image Map
 
 1. Right-click an image in preview mode and choose **"Edit Image Map"**.
 2. Use the toolbar to draw polygons, rectangles or ellipses over the preview.
@@ -94,12 +95,12 @@ dist/          → Compiled output used by Obsidian
 ## 🧩 Modules
 
 The plugin is split into several TypeScript modules:
-- `main.ts` – entry point that registers the post processor and context menu.
-- `contextMenu.ts` – adds the **Edit Image Map** action when right-clicking an image.
-- `panel.ts` – modal editor used to draw shapes and save them to a `.map.json` file.
-- `imageMap.ts` – parsing and SVG helper utilities used by both the editor and runtime.
+* `main.ts` – entry point that registers the post processor and context menu.
+* `contextMenu.ts` – listens for right‑clicks and spawns `panel.ts`.
+* `panel.ts` – drawing modal that lets you outline shapes and saves them to a `.map.json` file.
+* `imageMap.ts` – utilities for parsing coordinates and generating the SVG overlay.
 
-`main.ts` wires these pieces together so images display overlays and can be edited in place.
+`main.ts` wires these pieces together: the context menu opens the panel, the panel relies on `imageMap.ts`, and the post processor from `main.ts` overlays any saved shapes in preview.
 
 ## 🛠 Commands & Configuration
 
@@ -109,6 +110,21 @@ Use the following HTML attributes to configure each image:
 - `data-overlay` – path to an external SVG file to overlay.
 - `data-coordinates` – JSON string of shape coordinates.
 - `data-map` – key referencing `imageMaps` data in the note front matter.
+
+Example front matter for `data-map`:
+
+```yaml
+---
+imageMaps:
+  my-diagram:
+    polygons:
+      - "10,10 90,10 50,90"
+---
+```
+
+```markdown
+<img src="diagram.png" data-map="my-diagram" />
+```
 
 
 
